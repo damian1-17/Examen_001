@@ -43,6 +43,11 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize" />
+        <!-- Activity de Lista de Transacciones -->
+        <activity
+            android:name=".activities.TransactionsListActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
 
     </application>
 

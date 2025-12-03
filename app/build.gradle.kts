@@ -77,4 +77,7 @@ dependencies {
     // Testing
     testImplementation("junit:junit:4.13.2")
 
+    // RecyclerView Swipe Decorator
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
 }

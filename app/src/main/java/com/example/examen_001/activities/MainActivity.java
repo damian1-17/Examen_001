@@ -31,7 +31,6 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
-
     // Views principales
     private TextView tvUserGreeting;
     private TextView tvCurrentMonth;
@@ -301,9 +300,8 @@ public class MainActivity extends AppCompatActivity {
         cardTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Abrir lista de transacciones
-                // Intent intent = new Intent(MainActivity.this, TransactionsListActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, TransactionsListActivity.class);
+                startActivity(intent);
             }
         });
 
