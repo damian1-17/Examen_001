@@ -32,8 +32,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     // Views principales
     private TextView tvUserGreeting;
     private TextView tvCurrentMonth;
@@ -60,19 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private int monthStartDay = 1;
     private int alertThreshold = 80;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         dbHelper = new DatabaseHelper(this);
 
@@ -80,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         loadUserConfiguration();
         loadDashboardData();
         setupClickListeners();
-
     }
 
     /**
@@ -304,9 +292,8 @@ public class MainActivity extends AppCompatActivity {
         fabAddTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Abrir formulario de transacción
-                // Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AddTransactionActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -346,6 +333,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // Recargar datos al volver a la actividad
         loadDashboardData();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Recargar datos después de agregar/editar transacción
+            loadDashboardData();
+        }
     }
 
     @Override
