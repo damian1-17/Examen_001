@@ -1,14 +1,6 @@
 package com.example.examen_001.activities;
 
-import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.examen_001.R;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.examen_001.R;
 import com.example.examen_001.database.DatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,9 +21,12 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
-
+/**
+ * MainActivity - Dashboard Principal
+ * Muestra resumen financiero del mes actual
+ */
 public class MainActivity extends AppCompatActivity {
+
     // Views principales
     private TextView tvUserGreeting;
     private TextView tvCurrentMonth;
@@ -309,9 +305,8 @@ public class MainActivity extends AppCompatActivity {
         cardStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Abrir estadísticas
-                // Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+                startActivity(intent);
             }
         });
 

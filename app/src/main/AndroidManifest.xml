@@ -49,6 +49,13 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
+
+        <!-- Activity de Estadísticas -->
+        <activity
+            android:name=".activities.StatisticsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
     </application>
 
 </manifest>
