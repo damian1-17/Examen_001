@@ -25,6 +25,7 @@ import androidx.cardview.widget.CardView;
 import com.example.examen_001.R;
 import com.example.examen_001.database.DatabaseHelper;
 
+
 /**
  * Activity de Configuración
  * Permite editar preferencias y gestionar categorías/métodos de pago
@@ -42,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     // Views de Gestión
     private CardView cardManageCategories;
     private CardView cardManagePaymentMethods;
+    private CardView cardCurrencyConverter;
     private CardView cardResetData;
     private CardView cardAbout;
 
@@ -79,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
         cardEditProfile = findViewById(R.id.cardEditProfile);
         cardManageCategories = findViewById(R.id.cardManageCategories);
         cardManagePaymentMethods = findViewById(R.id.cardManagePaymentMethods);
+        cardCurrencyConverter = findViewById(R.id.cardCurrencyConverter);
         cardResetData = findViewById(R.id.cardResetData);
         cardAbout = findViewById(R.id.cardAbout);
     }
@@ -135,6 +138,15 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showManagePaymentMethodsDialog();
+            }
+        });
+
+        // Convertidor de monedas
+        cardCurrencyConverter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, ExchangeRateActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -1,7 +1,5 @@
 package com.example.examen_001.activities;
 
-
-
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -25,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.examen_001.R;
 import com.example.examen_001.database.DatabaseHelper;
 import com.example.examen_001.models.Category;
+import com.example.examen_001.utils.ExchangeRateManager;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +31,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+/**
+ * Activity para agregar o editar transacciones
+ */
 public class AddTransactionActivity extends AppCompatActivity {
 
     // Views
@@ -63,7 +66,6 @@ public class AddTransactionActivity extends AppCompatActivity {
     private String userCurrency = "USD";
     private long transactionId = -1; // Para edición
     private boolean isEditMode = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,8 +311,7 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     /**
-     * Convierte la moneda usando API
-     * TODO: Implementar llamada a API real
+     * Convierte la moneda usando API real
      */
     private void convertCurrency() {
         String originalAmountStr = etOriginalAmount.getText().toString().trim();
@@ -320,34 +321,60 @@ public class AddTransactionActivity extends AppCompatActivity {
             return;
         }
 
-        double originalAmount = Double.parseDouble(originalAmountStr);
-        String originalCurrency = spinnerOriginalCurrency.getSelectedItem().toString();
+        final double originalAmount = Double.parseDouble(originalAmountStr);
+        final String originalCurrency = spinnerOriginalCurrency.getSelectedItem().toString();
 
-        // Por ahora usar tasa simulada (TODO: implementar API real)
-        double exchangeRate = getExchangeRate(originalCurrency, userCurrency);
-        double convertedAmount = originalAmount * exchangeRate;
+        // Mostrar progreso
+        btnConvertCurrency.setEnabled(false);
+        btnConvertCurrency.setText("Convirtiendo...");
 
-        etAmount.setText(String.format(Locale.getDefault(), "%.2f", convertedAmount));
-        tvExchangeRate.setText(String.format(Locale.getDefault(),
-                "Tasa: 1 %s = %.4f %s", originalCurrency, exchangeRate, userCurrency));
-        tvExchangeRate.setVisibility(View.VISIBLE);
+        // Usar el gestor de tasas de cambio
+        ExchangeRateManager rateManager = new ExchangeRateManager(this);
 
-        Toast.makeText(this, "Conversión realizada", Toast.LENGTH_SHORT).show();
+        rateManager.convertAmount(originalAmount, originalCurrency, userCurrency,
+                new ExchangeRateManager.ConversionCallback() {
+                    @Override
+                    public void onSuccess(double convertedAmount, double rate) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                etAmount.setText(String.format(Locale.getDefault(), "%.2f", convertedAmount));
+                                tvExchangeRate.setText(String.format(Locale.getDefault(),
+                                        "Tasa: 1 %s = %.4f %s", originalCurrency, rate, userCurrency));
+                                tvExchangeRate.setVisibility(View.VISIBLE);
+
+                                btnConvertCurrency.setEnabled(true);
+                                btnConvertCurrency.setText("Convertir");
+
+                                Toast.makeText(AddTransactionActivity.this,
+                                        "Conversión realizada", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnConvertCurrency.setEnabled(true);
+                                btnConvertCurrency.setText("Convertir");
+
+                                Toast.makeText(AddTransactionActivity.this,
+                                        "Error: " + error, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
     }
 
     /**
-     * Obtiene la tasa de cambio (simulada por ahora)
-     * TODO: Implementar llamada real a API
+     * Obtiene la tasa de cambio (REMOVIDO - ahora usa API real)
+     * Este método ya no se usa
      */
+    @Deprecated
     private double getExchangeRate(String from, String to) {
-        if (from.equals(to)) return 1.0;
-
-        // Tasas simuladas (reemplazar con API real)
-        if (from.equals("USD") && to.equals("MXN")) return 17.5;
-        if (from.equals("EUR") && to.equals("USD")) return 1.1;
-        if (from.equals("USD") && to.equals("EUR")) return 0.91;
-
-        return 1.0; // Por defecto
+        return 1.0;
     }
 
     /**
@@ -535,7 +562,4 @@ public class AddTransactionActivity extends AppCompatActivity {
             dbHelper.close();
         }
     }
-
-
-
 }

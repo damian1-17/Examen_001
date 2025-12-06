@@ -67,6 +67,12 @@
             android:name=".activities.ManageCategoriesActivity"
             android:exported="false"
             android:parentActivityName=".activities.SettingsActivity" />
+        <!-- Activity de Convertidor de Monedas -->
+        <activity
+            android:name=".activities.ExchangeRateActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.SettingsActivity" />
+
     </application>
 
 </manifest>
