@@ -1,7 +1,5 @@
 package com.example.examen_001.activities;
 
-
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -314,9 +312,8 @@ public class MainActivity extends AppCompatActivity {
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Abrir configuración
-                // Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
     }

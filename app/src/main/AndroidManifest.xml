@@ -56,6 +56,17 @@
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
+        <!-- Activity de Configuración -->
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <!-- Activity de Gestionar Categorías -->
+        <activity
+            android:name=".activities.ManageCategoriesActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.SettingsActivity" />
     </application>
 
 </manifest>
